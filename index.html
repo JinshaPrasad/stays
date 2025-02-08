@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stay Rooms Booking</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f8f8;
+            text-align: center;
+        }
+
+        header {
+            background: #0044cc;
+            color: white;
+            padding: 20px;
+            font-size: 24px;
+        }
+
+        .welcome {
+            margin: 20px;
+            font-size: 20px;
+            color: #333;
+        }
+
+        .about {
+            background: #ddd;
+            padding: 15px;
+            margin: 10px auto;
+            width: 80%;
+            border-radius: 5px;
+        }
+
+        .rooms {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .room {
+            background: white;
+            width: 320px;
+            padding: 15px;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            text-align: left;
+        }
+
+        .room h3 {
+            color: #0044cc;
+        }
+
+        .room p {
+            font-size: 14px;
+            margin: 5px 0;
+        }
+
+        .gallery {
+            display: flex;
+            gap: 5px;
+            margin-top: 10px;
+        }
+
+        .gallery img {
+            width: 90px;
+            height: 60px;
+            object-fit: cover;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .contact-btn {
+            display: block;
+            background: #28a745;
+            color: white;
+            padding: 8px;
+            text-align: center;
+            border-radius: 5px;
+            text-decoration: none;
+            margin-top: 10px;
+        }
+
+        .contact-btn:hover {
+            background: #218838;
+        }
+
+        /* Lightbox */
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .lightbox img {
+            max-width: 80%;
+            max-height: 80%;
+            border-radius: 10px;
+        }
+
+        .lightbox:target {
+            display: flex;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        Stay Rooms Booking
+    </header>
+
+    <div class="welcome">
+        <h2>Welcome to Stay Rooms</h2>
+        <p>Find the perfect stay with all modern amenities and security.</p>
+    </div>
+
+    <div class="about">
+        <p>We offer premium stay rooms with top-notch facilities including food, security, and flexible timings. Browse
+            through our options and pick the best stay for you.</p>
+    </div>
+
+    <div class="rooms">
+        <!-- Room 1 -->
+        <div class="room">
+
+            <!-- Image Gallery -->
+            <div class="gallery">
+                <a href="#img1"><img src="https://via.placeholder.com/300x200" alt="Room 1"></a>
+                <a href="#img2"><img src="https://via.placeholder.com/300x200" alt="Room 1"></a>
+                <a href="#img3"><img src="https://via.placeholder.com/300x200" alt="Room 1"></a>
+            </div>
+
+            <h3>Luxury Suite</h3>
+            <p><strong>Features:</strong> King-size bed, WiFi, TV, AC</p>
+            <p><strong>Status:</strong> Available</p>
+            <p><strong>Contact:</strong> +123456789</p>
+            <p><strong>Reviews:</strong> ⭐⭐⭐⭐⭐</p>
+            <p><strong>Security:</strong> 24/7 Surveillance</p>
+            <p><strong>Food Facility:</strong> Breakfast Included</p>
+            <p><strong>Rent:</strong> $120/night</p>
+            <p><strong>Check-in:</strong> 12:00 PM | <strong>Check-out:</strong> 11:00 AM</p>
+
+            <!-- Lightbox -->
+            <div id="img1" class="lightbox">
+                <a href="#"><img src="https://via.placeholder.com/800x500" alt="Luxury Suite"></a>
+            </div>
+            <div id="img2" class="lightbox">
+                <a href="#"><img src="https://via.placeholder.com/800x500" alt="Luxury Suite"></a>
+            </div>
+            <div id="img3" class="lightbox">
+                <a href="#"><img src="https://via.placeholder.com/800x500" alt="Luxury Suite"></a>
+            </div>
+
+            <a href="#" class="contact-btn">Book Now</a>
+        </div>
+
+        <!-- Room 2 -->
+        <div class="room">
+
+            <!-- Image Gallery -->
+            <div class="gallery">
+                <a href="#img4"><img src="https://via.placeholder.com/300x200" alt="Room 2"></a>
+                <a href="#img5"><img src="https://via.placeholder.com/300x200" alt="Room 2"></a>
+                <a href="#img6"><img src="https://via.placeholder.com/300x200" alt="Room 2"></a>
+            </div>
+
+            <h3>Deluxe Room</h3>
+            <p><strong>Features:</strong> Queen-size bed, WiFi, TV</p>
+            <p><strong>Status:</strong> Booked</p>
+            <p><strong>Contact:</strong> +987654321</p>
+            <p><strong>Reviews:</strong> ⭐⭐⭐⭐</p>
+            <p><strong>Security:</strong> 24/7 Security</p>
+            <p><strong>Food Facility:</strong> Lunch & Dinner Available</p>
+            <p><strong>Rent:</strong> $80/night</p>
+            <p><strong>Check-in:</strong> 1:00 PM | <strong>Check-out:</strong> 10:00 AM</p>
+
+            <!-- Lightbox -->
+            <div id="img4" class="lightbox">
+                <a href="#"><img src="https://via.placeholder.com/800x500" alt="Deluxe Room"></a>
+            </div>
+            <div id="img5" class="lightbox">
+                <a href="#"><img src="https://via.placeholder.com/800x500" alt="Deluxe Room"></a>
+            </div>
+            <div id="img6" class="lightbox">
+                <a href="#"><img src="https://via.placeholder.com/800x500" alt="Deluxe Room"></a>
+            </div>
+
+            <a href="#" class="contact-btn">Book Now</a>
+        </div>
+    </div>
+    <script type="module">
+        
+      </script>
+
+</body>
+
+</html>

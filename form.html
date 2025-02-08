@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://*.googleapis.com https://*.gstatic.com; connect-src 'self' https://*.googleapis.com https://*.firebaseio.com https://firestore.googleapis.com; script-src 'self' 'unsafe-inline' https://*.googleapis.com https://*.gstatic.com; style-src 'self' 'unsafe-inline';">
+    <title>Room Submission Form</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 24px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+            font-weight: 600;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #4CAF50;
+            box-shadow: 0 0 5px rgba(76, 175, 80, 0.2);
+        }
+
+        textarea {
+            height: 100px;
+            resize: vertical;
+        }
+
+        .btn-submit {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-submit:hover {
+            background-color: #45a049;
+        }
+
+        .btn-submit:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+
+        .error-message {
+            color: #ff0000;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .success-message {
+            background-color: #dff0d8;
+            color: #3c763d;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .loading::after {
+            content: "...";
+            animation: dots 1.5s steps(5, end) infinite;
+        }
+
+        @keyframes dots {
+            0%, 20% { content: "."; }
+            40% { content: ".."; }
+            60%, 100% { content: "..."; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Room Submission Form</h1>
+        <div id="successMessage" class="success-message"></div>
+        
+        <form id="roomForm">
+            <div class="form-group">
+                <label for="stayType">Stay Type *</label>
+                <select id="stayType" name="stayType" required>
+                    <option value="">Select stay type</option>
+                    <option value="Paying Guest">Paying Guest</option>
+                    <option value="Hostel">Hostel</option>
+                    <option value="Apartment">Apartment</option>
+                </select>
+                <div class="error-message" id="stayTypeError">Please select a stay type</div>
+            </div>
+
+            <div class="form-group">
+                <label for="name">Room Name *</label>
+                <input type="text" id="name" name="name" required maxlength="100">
+                <div class="error-message" id="nameError">Please enter a valid room name</div>
+            </div>
+
+            <div class="form-group">
+                <label for="address">Address *</label>
+                <textarea id="address" name="address" required maxlength="500"></textarea>
+                <div class="error-message" id="addressError">Please enter a valid address</div>
+            </div>
+
+            <div class="form-group">
+                <label for="features">Features *</label>
+                <input type="text" id="features" name="features" required maxlength="200" 
+                       placeholder="e.g., Wi-Fi, AC, Attached Bathroom">
+                <div class="error-message" id="featuresError">Please enter room features</div>
+            </div>
+
+            <div class="form-group">
+                <label for="status">Status *</label>
+                <select id="status" name="status" required>
+                    <option value="Available">Available</option>
+                    <option value="Booked">Booked</option>
+                    <option value="Maintenance">Maintenance</option>
+                </select>
+                <div class="error-message" id="statusError">Please select a status</div>
+            </div>
+
+            <div class="form-group">
+                <label for="security">Security Measures *</label>
+                <input type="text" id="security" name="security" required maxlength="200"
+                       placeholder="e.g., CCTV, Security Guard, Biometric Access">
+                <div class="error-message" id="securityError">Please enter security measures</div>
+            </div>
+
+            <div class="form-group">
+                <label for="food">Food Facility *</label>
+                <select id="food" name="food" required>
+                    <option value="Included">Included</option>
+                    <option value="Not Included">Not Included</option>
+                    <option value="Optional">Optional</option>
+                </select>
+                <div class="error-message" id="foodError">Please select a food option</div>
+            </div>
+
+            <div class="form-group">
+                <label for="rent">Rent (Per Month in $) *</label>
+                <input type="number" id="rent" name="rent" required min="0" max="1000000"
+                       placeholder="Enter monthly rent">
+                <div class="error-message" id="rentError">Please enter a valid rent amount (0-1,000,000)</div>
+            </div>
+
+            <div class="form-group">
+                <label for="deposit">Fixed Deposit ($) *</label>
+                <input type="number" id="deposit" name="deposit" required min="0" max="1000000"
+                       placeholder="Enter security deposit">
+                <div class="error-message" id="depositError">Please enter a valid deposit amount (0-1,000,000)</div>
+            </div>
+
+            <div class="form-group">
+                <label for="location">Location (City, Country) *</label>
+                <input type="text" id="location" name="location" required maxlength="100"
+                       placeholder="e.g., New York, USA">
+                <div class="error-message" id="locationError">Please enter a valid location</div>
+            </div>
+
+            <button type="submit" class="btn-submit" id="submitButton">Submit Room Details</button>
+            <div class="loading" id="loadingIndicator">Submitting</div>
+        </form>
+    </div>
+
+    <!-- Firebase Initialization -->
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js';
+        import { getFirestore, collection, addDoc, serverTimestamp } 
+            from 'https://www.gstatic.com/firebasejs/10.10.0/firebase-firestore.js';
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDcJuqqa8Ka6eY_pZg_ln9bMfoZSO5zbi0",
+            authDomain: "home-stay-64f8d.firebaseapp.com",
+            projectId: "home-stay-64f8d",
+            storageBucket: "home-stay-64f8d.appspot.com",
+            messagingSenderId: "946334428025",
+            appId: "1:946334428025:web:87d02fcbdf7985e9c59da8",
+            measurementId: "G-LMPDPDVQGH"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // Make Firebase functions available globally
+        window.db = db;
+        window.collection = collection;
+        window.addDoc = addDoc;
+        window.serverTimestamp = serverTimestamp;
+    </script>
+
+    <!-- Form handling script -->
+    <script>
+        function showError(elementId, message) {
+            const errorElement = document.getElementById(elementId);
+            errorElement.textContent = message;
+            errorElement.style.display = 'block';
+        }
+
+        function hideError(elementId) {
+            document.getElementById(elementId).style.display = 'none';
+        }
+
+        function showSuccess(message) {
+            const successElement = document.getElementById('successMessage');
+            successElement.textContent = message;
+            successElement.style.display = 'block';
+            setTimeout(() => {
+                successElement.style.display = 'none';
+            }, 5000);
+        }
+
+        function validateForm() {
+            let isValid = true;
+            const fields = [
+                { id: 'stayType', type: 'select' },
+                { id: 'name', type: 'text' },
+                { id: 'address', type: 'text' },
+                { id: 'features', type: 'text' },
+                { id: 'status', type: 'select' },
+                { id: 'security', type: 'text' },
+                { id: 'food', type: 'select' },
+                { id: 'rent', type: 'number' },
+                { id: 'deposit', type: 'number' },
+                { id: 'location', type: 'text' }
+            ];
+
+            fields.forEach(field => {
+                const element = document.getElementById(field.id);
+                const value = element.value.trim();
+
+                hideError(`${field.id}Error`);
+
+                if (!value) {
+                    showError(`${field.id}Error`, `Please enter ${field.id.replace(/([A-Z])/g, ' $1').toLowerCase()}`);
+                    isValid = false;
+                } else if (field.type === 'number') {
+                    const numValue = parseFloat(value);
+                    if (isNaN(numValue) || numValue < 0 || numValue > 1000000) {
+                        showError(`${field.id}Error`, `Please enter a valid amount between 0 and 1,000,000`);
+                        isValid = false;
+                    }
+                }
+            });
+
+            return isValid;
+        }
+
+        document.getElementById("roomForm").addEventListener("submit", async function(event) {
+            event.preventDefault();
+            
+            if (!validateForm()) {
+                return;
+            }
+
+            const submitButton = document.getElementById("submitButton");
+            const loadingIndicator = document.getElementById("loadingIndicator");
+            
+            submitButton.disabled = true;
+            loadingIndicator.style.display = 'block';
+
+            try {
+                const formData = {
+                    stayType: document.getElementById("stayType").value,
+                    name: document.getElementById("name").value.trim(),
+                    address: document.getElementById("address").value.trim(),
+                    features: document.getElementById("features").value.trim(),
+                    status: document.getElementById("status").value,
+                    security: document.getElementById("security").value.trim(),
+                    food: document.getElementById("food").value,
+                    rent: parseFloat(document.getElementById("rent").value),
+                    deposit: parseFloat(document.getElementById("deposit").value),
+                    location: document.getElementById("location").value.trim(),
+                    timestamp: window.serverTimestamp()
+                };
+
+                await window.addDoc(window.collection(window.db,"stays"), formData);
+                showSuccess("Room details submitted successfully!");
+                document.getElementById("roomForm").reset();
+            } catch (error) {
+                console.error("Error adding room:", error);
+                alert("Error submitting room details. Please try again.");
+            } finally {
+                submitButton.disabled = false;
+                loadingIndicator.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
