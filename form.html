@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://*.googleapis.com https://*.gstatic.com; connect-src 'self' https://*.googleapis.com https://*.firebaseio.com https://firestore.googleapis.com; script-src 'self' 'unsafe-inline' https://*.googleapis.com https://*.gstatic.com; style-src 'self' 'unsafe-inline';">
-    <title>Room Submission Form</title>
+    <title>Stay Resevation Form</title>
     
     <style>
         * {
@@ -128,12 +128,13 @@
 </head>
 <body>
     <div class="container">
-        <h1>Room Submission Form</h1>
+        <h1>Stay Reservation Form</h1>
         <div id="successMessage" class="success-message"></div>
         
         <form id="roomForm">
             <div class="form-group">
                 <label for="stayType">Stay Type *</label>
+            
                 <select id="stayType" name="stayType" required>
                     <option value="">Select stay type</option>
                     <option value="Paying Guest">Paying Guest</option>
@@ -142,9 +143,20 @@
                 </select>
                 <div class="error-message" id="stayTypeError">Please select a stay type</div>
             </div>
+            <div class="form-group">
+                <label for="gender">Gender *</label>
+            
+                <select id="gender" name="gender" required>
+                   
+                    <option value="">prefered Gender</option>
+                    <option value="Male">Males only</option>
+                    <option value="Female">Females only</option>
+                </select>
+                <div class="error-message" id="stayTypeError">Please select a gender type</div>
+            </div>
 
             <div class="form-group">
-                <label for="name">Room Name *</label>
+                <label for="name">Name *</label>
                 <input type="text" id="name" name="name" required maxlength="100">
                 <div class="error-message" id="nameError">Please enter a valid room name</div>
             </div>
@@ -153,6 +165,12 @@
                 <label for="address">Address *</label>
                 <textarea id="address" name="address" required maxlength="500"></textarea>
                 <div class="error-message" id="addressError">Please enter a valid address</div>
+            </div>
+
+            <div class="form-group">
+                <label for="contactnumber">Contact Number *</label>
+                <input type="tel" id="contactnumber" name="contactnumber" required pattern="[0-9]{10}" placeholder="Enter 10-digit phone number">
+                <div class="error-message" id="contacterror">Please enter a valid 10-digit phone number</div>
             </div>
 
             <div class="form-group">
@@ -190,21 +208,21 @@
             </div>
 
             <div class="form-group">
-                <label for="rent">Rent (Per Month in $) *</label>
+                <label for="rent">Rent *</label>
                 <input type="number" id="rent" name="rent" required min="0" max="1000000"
                        placeholder="Enter monthly rent">
                 <div class="error-message" id="rentError">Please enter a valid rent amount (0-1,000,000)</div>
             </div>
 
             <div class="form-group">
-                <label for="deposit">Fixed Deposit ($) *</label>
+                <label for="deposit">Fixed Deposit *</label>
                 <input type="number" id="deposit" name="deposit" required min="0" max="1000000"
                        placeholder="Enter security deposit">
                 <div class="error-message" id="depositError">Please enter a valid deposit amount (0-1,000,000)</div>
             </div>
 
             <div class="form-group">
-                <label for="location">Location (City, Country) *</label>
+                <label for="location">Location  *</label>
                 <input type="text" id="location" name="location" required maxlength="100"
                        placeholder="e.g., New York, USA">
                 <div class="error-message" id="locationError">Please enter a valid location</div>
@@ -244,15 +262,15 @@
 
     <!-- Form handling script -->
     <script>
-        function showError(elementId, message) {
-            const errorElement = document.getElementById(elementId);
-            errorElement.textContent = message;
-            errorElement.style.display = 'block';
-        }
+        // function showError(elementId, message) {
+        //     const errorElement = document.getElementById(elementId);
+        //     errorElement.textContent = message;
+        //     errorElement.style.display = 'block';
+        // }
 
-        function hideError(elementId) {
-            document.getElementById(elementId).style.display = 'none';
-        }
+        // function hideError(elementId) {
+        //     document.getElementById(elementId).style.display = 'none';
+        // }
 
         function showSuccess(message) {
             const successElement = document.getElementById('successMessage');
@@ -263,48 +281,52 @@
             }, 5000);
         }
 
-        function validateForm() {
-            let isValid = true;
-            const fields = [
-                { id: 'stayType', type: 'select' },
-                { id: 'name', type: 'text' },
-                { id: 'address', type: 'text' },
-                { id: 'features', type: 'text' },
-                { id: 'status', type: 'select' },
-                { id: 'security', type: 'text' },
-                { id: 'food', type: 'select' },
-                { id: 'rent', type: 'number' },
-                { id: 'deposit', type: 'number' },
-                { id: 'location', type: 'text' }
-            ];
+        // function validateForm() {
+        //     let isValid = true;
+        //     const fields = [
+        //         { id: 'stayType', type: 'select' },
+        //         { id: 'gender', type: 'select' },
+        //         { id: 'name', type: 'text' },
+        //         { id: 'address', type: 'text' },
+        //         { id: 'contactnumber', type: 'text' },
+        //         { id: 'features', type: 'text' },
+        //         { id: 'status', type: 'select' },
+        //         { id: 'security', type: 'text' },
+        //         { id: 'food', type: 'select' },
+        //         { id: 'rent', type: 'number' },
+        //         { id: 'deposit', type: 'number' },
+        //         { id: 'location', type: 'text' }
+        //     ];
 
-            fields.forEach(field => {
-                const element = document.getElementById(field.id);
-                const value = element.value.trim();
+        //     fields.forEach(field => {
+        //         const element = document.getElementById(field.id);
+        //         const value = element.value.trim();
 
-                hideError(`${field.id}Error`);
+        //         hideError(`${field.id}Error`);
 
-                if (!value) {
-                    showError(`${field.id}Error`, `Please enter ${field.id.replace(/([A-Z])/g, ' $1').toLowerCase()}`);
-                    isValid = false;
-                } else if (field.type === 'number') {
-                    const numValue = parseFloat(value);
-                    if (isNaN(numValue) || numValue < 0 || numValue > 1000000) {
-                        showError(`${field.id}Error`, `Please enter a valid amount between 0 and 1,000,000`);
-                        isValid = false;
-                    }
-                }
-            });
+        //         if (!value) {
+        //             showError(`${field.id}Error`, `Please enter ${field.id.replace(/([A-Z])/g, ' $1').toLowerCase()}`);
+        //             isValid = false;
+        //         } else if (field.type === 'number') {
+        //             const numValue = parseFloat(value);
+        //             if (isNaN(numValue) || numValue < 0 || numValue > 1000000) {
+        //                 showError(`${field.id}Error`, `Please enter a valid amount between 0 and 1,000,000`);
+        //                 isValid = false;
+        //             }
+        //         }
+        //     });
 
-            return isValid;
-        }
+        //     return isValid;
+        // }
 
         document.getElementById("roomForm").addEventListener("submit", async function(event) {
             event.preventDefault();
             
-            if (!validateForm()) {
-                return;
-            }
+            // if (!validateForm()) {
+            //     return;
+            // }
+
+            console.log("Hello")
 
             const submitButton = document.getElementById("submitButton");
             const loadingIndicator = document.getElementById("loadingIndicator");
@@ -315,8 +337,10 @@
             try {
                 const formData = {
                     stayType: document.getElementById("stayType").value,
+                    gender: document.getElementById("gender").value,
                     name: document.getElementById("name").value.trim(),
                     address: document.getElementById("address").value.trim(),
+                    contactnumber: document.getElementById("contactnumber").value,
                     features: document.getElementById("features").value.trim(),
                     status: document.getElementById("status").value,
                     security: document.getElementById("security").value.trim(),

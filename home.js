@@ -24,8 +24,9 @@ function createRoomCard(room) {
         <div class="room-card">
             <h2 class="room-title">${room.name}</h2>
             <div class="room-type">${room.stayType}</div>
+            <div class="room-gender">${room.gender}</div>
             <span class="room-status status-${room.status}">${room.status}</span>
-            <div class="room-price">$${room.rent}/month</div>
+            <div class="room-price">${room.rent}/month</div>
             <div class="room-features">
                 <strong>Features:</strong> ${room.features}
             </div>
@@ -36,6 +37,9 @@ function createRoomCard(room) {
                 <strong>Food:</strong> ${room.food}
             </div>
             <div class="room-location">📍 ${room.location}</div>
+            ${room.contactnumber ? `
+                <a href="tel:${room.contactnumber}" class="call-button">📞 Call Now</a>
+            ` : '<p class="no-contact">No contact available</p>'}
         </div>
     `;
 }
@@ -43,6 +47,7 @@ function createRoomCard(room) {
 // Function to filter and display rooms
 function filterAndDisplayRooms() {
     const stayTypeFilter = document.getElementById('stayTypeFilter').value;
+    const genderFilter = document.getElementById('genderFilter').value;
     const statusFilter = document.getElementById('statusFilter').value;
     const maxRentFilter = document.getElementById('maxRent').value;
     
@@ -50,6 +55,10 @@ function filterAndDisplayRooms() {
 
     if (stayTypeFilter) {
         filteredRooms = filteredRooms.filter(room => room.stayType === stayTypeFilter);
+    }
+    
+    if (genderFilter) {
+        filteredRooms = filteredRooms.filter(room => room.gender === genderFilter);
     }
     
     if (statusFilter) {
@@ -74,6 +83,7 @@ function filterAndDisplayRooms() {
 
 // Add event listeners to filters
 document.getElementById('stayTypeFilter').addEventListener('change', filterAndDisplayRooms);
+document.getElementById('genderFilter').addEventListener('change', filterAndDisplayRooms);
 document.getElementById('statusFilter').addEventListener('change', filterAndDisplayRooms);
 document.getElementById('maxRent').addEventListener('input', filterAndDisplayRooms);
 
