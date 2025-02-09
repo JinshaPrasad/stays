@@ -5,6 +5,7 @@ let allRooms = [];
 
 // Function to fetch rooms from Firebase
 async function fetchRooms() {
+    console.log('heyy')
     try {
         const querySnapshot = await getDocs(collection(db, "stays"));
         allRooms = querySnapshot.docs.map(doc => ({
